@@ -24,7 +24,7 @@ function price({
     return isElegibleMessage;
   }
 
-  let rentalPrice = age * days;
+  let rentalPrice = getBasePrice(age, pickUpDate, dropOffDate);
 
   rentalPrice = applyPriceModifiers(rentalPrice, {
     carClass,
@@ -125,6 +125,26 @@ function getSeason(pickUpDate, dropOffDate) {
   return isHighSeason ? "High" : "Low";
 }
 
+function getBasePrice(age, startDate, endDate) {
+  let price = 0;
+  const current = new Date(startDate);
+  const end = new Date(endDate);
+
+  while(current <= end) {
+    const day = current.getDay();
+    if(day === 0 || day === 6) {
+      price += age * 1.05;
+    }
+    else {
+      price += age;
+    }
+
+    current.setDate(current.getDate() + 1);
+  }
+
+  return price;
+}
+
 module.exports = {
   price,
   isDriverElegible,
@@ -133,4 +153,5 @@ module.exports = {
   getDays,
   getSeason,
   applyPriceModifiers,
+  getBasePrice
 };

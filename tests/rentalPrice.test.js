@@ -300,6 +300,13 @@ describe("price", () => {
       licenceIssueDate: "2021-07-01",
     });
 
-    expect(priceResult).toBe("$126.50");
+    expect(priceResult).toBe("$154.33");
+  });
+
+  test("should correctly apply 5% price increace on weekend days", () => {
+    expect(rental.getBasePrice(50, "2025-05-08", "2025-05-11")).toBe(205);
+  });
+  test("should correctly apply 5% price increace on weekend days", () => {
+    expect(rental.getBasePrice(50, "2025-05-05", "2025-05-08")).toBe(200);
   });
 });
